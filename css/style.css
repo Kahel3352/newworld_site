@@ -1,0 +1,55 @@
+main
+{
+	margin-top: 7%;
+	min-height: 50%;
+}
+
+#carousel-example-3
+{
+	margin-top: 5%;
+	line-height: 100%;
+}
+
+a
+{
+	color: green;
+}
+
+a:hover
+{
+	color: #7cb342;
+}
+
+/*Override de la couleur de focus des champs*/
+
+input[type="text"], textarea {
+	outline: none;
+	box-shadow:none !important;
+	border-bottom: 1px solid #ccc !important;
+}
+
+input[type="text"]:focus, textarea {
+	outline: none;
+	border-bottom: 3px solid #8bc34a !important;
+}
+
+input[type="password"], textarea {
+	outline: none;
+	box-shadow:none !important;
+	border-bottom: 1px solid #ccc !important;
+}
+
+input[type="password"]:focus, textarea {
+	outline: none;
+	border-bottom: 3px solid #8bc34a !important;
+}
+
+.active{
+	color: green !important;
+}
+
+.ui-menu {
+    color: green;
+    background-color: rgba(255, 255, 255, 255); 
+    width: 20%;
+}
