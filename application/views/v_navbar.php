@@ -1,18 +1,18 @@
     <!-- JQuery -->
-    <script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
+    <script type="text/javascript" src="<?php echo base_url();?>js/jquery-3.1.1.min.js"></script>
 
     <!-- Bootstrap dropdown -->
-    <script type="text/javascript" src="js/popper.min.js"></script>
+    <script type="text/javascript" src="<?php echo base_url();?>js/popper.min.js"></script>
 
     <!-- Bootstrap core JavaScript -->
-    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="<?php echo base_url();?>js/bootstrap.min.js"></script>
 
     <!-- MDB core JavaScript -->
-    <script type="text/javascript" src="js/mdb.min.js"></script>
+    <script type="text/javascript" src="<?php echo base_url();?>js/mdb.min.js"></script>
 <header class="white-text">
     <nav class="navbar navbar-expand-lg #4caf50 green fixed-top scrolling-navbar">
         <div class="container">
-            <a class="navbar-brand white-text" href="modules/c_main.php?page=reset">New World</a>
+            <a class="navbar-brand white-text" href="<?php echo site_url(); ?>">New World</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                 aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -20,7 +20,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
-                        <a class="nav-link white-text" href="modules/c_main.php?page=pages/acheter.php">Acheter <span class="sr-only">(current)</span></a>
+                        <a class="nav-link white-text" href="<?php echo site_url("acheter"); ?>">Acheter <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link white-text" href="modules/c_main.php?page=pages/produire.php">Produire</a>
@@ -40,13 +40,12 @@
                 </ul>
                 <!-- <a href="modules/c_main.php?page=login.php">Se connecter</a> -->
                 <?php 
-                session_start();
-                    if(!isset($_SESSION['user'])) 
+                    if(!isset($this->session->userId))
                         echo ' <button type="button" class="btn green" data-toggle="modal" data-target="#loginModal">
                     Se connecter
                 </button>';
                     else
-                        echo ' <a class="btn green" href="./scripts/login.php?out">
+                        echo ' <a class="nav-link white-text" href="'.site_url("profil").'"> '.$this->session->userPrenom . " " . $this->session->userNom .'</a> <a class="btn green" href="'.site_url("Users/logout").'">
                     Se déconnecter
                 </a>';
                 ?>

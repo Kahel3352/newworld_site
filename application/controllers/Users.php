@@ -4,8 +4,29 @@ class Users extends CI_Controller
 	function login()
 	{
 		$this->load->database();
-		$query = $this->db->query('select Utilisateur.Nom, Utilisateur.Prenom from Utilisateur inner join Securite on Utilisateur.idSecurite = Securite.idSecurite where mail = ? and mdp = ?;', [$this->input->post('login'), md5($this->input->post('password'))]);
-			echo $query->num_rows();
+		$query = $this->db->query('SELECT Utilisateur.userId, Utilisateur.userNom, Utilisateur.userPrenom FROM Utilisateur WHERE Utilisateur.userMail = ? AND Utilisateur.userMdp = md5(?);', [$this->input->post('mail'), $this->input->post('password')]);
+		if($query->num_rows()>0)
+		{
+			$this->load->library('session');
+			$_SESSION['userId'] = $query->row()->userId;
+			$_SESSION['userNom'] = $query->row()->userNom;
+			$_SESSION['userPrenom'] = $query->row()->userPrenom; 
+		}
+		else
+		{
+			echo "Mot de passe et/adresse mail inccorect";
+		}
+	}
+
+	function logout()
+	{
+		$this->load->library('session');
+		$this->load->helper('url');
+		var_dump($this->session);
+		echo "<br><br>";
+		unset($_SESSION["userId"]);
+		var_dump($this->session);
+		header("Location: ".base_url());
 	}
 
 	function register()
@@ -24,17 +45,26 @@ class Users extends CI_Controller
 
 		else
 		{
-			$query = $this->db->query('select Utilisateur.* from Utilisateur where userMail = ?;', [$this->input->post('mail')]);
+			$query = $this->db->query('SELECT Utilisateur.* FROM Utilisateur WHERE userMail = ?;', [$this->input->post('mail')]);
 			if($query->num_rows()>0)
 				echo "L'adresse mail est déjà associée à un compte";
 			else
 			{
-				$this->createAdresse($this->input->post('adresse'));
-				$VALUES = [
+				$idAdresse = $this->createAdresse($this->input->post('adresse'));
+				$codeConfirmation = md5(time());
+				$values = [
 					$this->input->post('nom'),
 					$this->input->post('prenom'),
+					$this->input->post('mail'),
+					$this->input->post('password'),
+					$this->input->post('reponse'),
+					$codeConfirmation,
+					$this->input->post('question'),
+					$idAdresse
 				];
-				$query = "INSERT INTO Utilisateur (userId, userNom, userPrenom, userMail, userEtat, userDateInscription, userMdp, userReponseSecurite, phraseId, adresseId) VALUES ((select ifnull(max(userId), 0)+1 from Utilisateur), ?, ?, ?, 0, now(), ?, ?, ?, ?, ?);"
+				$this->db->query("INSERT INTO Utilisateur (userId, userNom, userPrenom, userMail, userEtat, userDateInscription, userMdp, userReponseSecurite, userCodeConfirmation, phraseId, adresseId) VALUES ((select ifnull(max(userId), 0)+1 from Utilisateur as id), ?, ?, ?, 2, curdate(), md5(?), ?, ?, ?, ?);", $values);
+				$this->sendMail($this->input->post('nom'), $this->input->post('prenom'), $this->input->post('mail'), $codeConfirmation);
+				echo "Un mail de confirmation a été envoyé";
 			}
 		}
 
@@ -61,11 +91,38 @@ class Users extends CI_Controller
 
 			//on créer l'adresse
 			$this->db->query("INSERT INTO Adresse (adresseId, adresseRue, villeId) VALUES ((select ifnull(max(adresseId), 0)+1 from Adresse as id), ?, ?);", [$adresse["rue"], $idVille]);
+
 		}
 
 		//on retourne l'id de l'adresse
 		$queryAdresse = $this->db->query("SELECT adresseId FROM Adresse INNER JOIN Ville ON Adresse.villeId = Ville.villeId WHERE adresseRue = ? AND villeNom = ? AND villeCP = ?", [$adresse['rue'], $adresse['ville'], $adresse['cp']]);
 		return $queryAdresse->row()->adresseId;
+	}
+
+	function sendMail($nom, $prenom, $mail, $code)
+	{
+		$subject = "Inscription sur New World";
+		$message = '<!doctype html>
+						<html lang="fr">
+						<head>
+						  <meta charset="utf-8">
+						  <title>Titre de la page</title>
+						  <link rel="stylesheet" href="style.css">
+						  <script src="script.js"></script>
+						</head>
+						<body>
+							Cher(e) '.$prenom.' '.$nom.' <br> Bienvenu sur New World, veuillez confirmer votre inscription en cliquant sur le lien ci-dessous: <br> <a href="http://172.29.56.11/~mvanlerberghe/3.0/index.php/Users/confirm/'.$mail.'/'.$code.'">Confirmer</a>
+						</body>
+						</html>';
+     	$headers[] = 'MIME-Version: 1.0';
+		$headers[] = 'Content-type: text/html; charset=iso-8859-1';
+		mail($mail, $subject , $message, implode("\r\n", $headers));
+	}
+
+	function confirm($mail, $code)
+	{
+		$this->load->database();
+		$this->db->query("UPDATE Utilisateur SET userEtat = 1 WHERE userMail = ? AND userCodeConfirmation = ?", [$mail, $code]);
 	}
 }
 ?>

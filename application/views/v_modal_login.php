@@ -1,4 +1,4 @@
-<script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
+<script type="text/javascript" src="<?php echo base_url();?>js/jquery-3.1.1.min.js"></script>
 <script type="text/javascript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
    <div class="modal-dialog cascading-modal" role="document">
@@ -220,24 +220,19 @@
     });
 
     $("#loginBtn").click( function(e) {
-        var l = $("#RegisterEmail").val();
-        var p = $("#RegisterPassword").val();
-        console.log("<?php base_url(); ?>"+"index.php/Users/login");
-        console.log(l);
         $.ajax({
             dataType: "text",
-            type: "GET",
-            url: "<?php base_url(); ?>"+"index.php/Users/login",
-            data: { login: l, password: p},
+            type: "POST",
+            url: "<?php echo site_url("Users/login"); ?>",
+            data: { mail: $("#LoginEmail").val(), password: $("#LoginPassword").val()},
             error: function (xhr, ajaxOptions, thrownError) {
-        //console.log(xhr.status);
         console.log(thrownError);
         },
             success: function (data) {
-                if (data>0)
-                    location.reload();
+                if(data.length)
+                    $("#loginError").html(data);
                 else
-                    $("#loginError").html("Email et/ou mot de passe incorrect(s)");
+                    location.reload();
             },
             fail: function(e) {
                 console.log("fail: "+JSON.stringify(e));
@@ -268,7 +263,7 @@
         $.ajax({
             dataType: "text",
             type: "POST",
-            url: "<?php base_url(); ?>"+"index.php/Users/register",
+            url: "<?php echo site_url("Users/register"); ?>",
             data: params,
             success: function (data) {
                 $("#registerError").html(data);

@@ -53,3 +53,11 @@ input[type="password"]:focus, textarea {
     background-color: rgba(255, 255, 255, 255); 
     width: 20%;
 }
+
+.lots{
+	margin-top: 10%;
+}
+
+.profil{
+	margin-top: 10%;
+}

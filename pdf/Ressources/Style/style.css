@@ -1,0 +1,105 @@
+/*@font-face {
+    font-family: 'wanabees';
+    src: url('./Font/Wanabees/wannabees_personal_use-webfont.woff2') format('woff2'),
+         url('./Font/Wanabees/wannabees_personal_use-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'moon_flower';
+    src: url('./Font/Moon_Flower/moon_flower-webfont.woff2') format('woff2'),
+         url('./Font/Moon_Flower/moon_flower-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+
+
+@font-face {
+    font-family: 'moon_flower_bold';
+    src: url('./Font/Moon_Flower/moon_flower_bold-webfont.woff2') format('woff2'),
+         url('./Font/Moon_Flower/moon_flower_bold-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family:'TheLightFont';
+    src: url('./Font/The_Light_Font/TheLightFont.eot');
+    src: url('./Font/The_Light_Font/TheLightFont.eot?#iefix') format('embedded-opentype'),
+        url('./Font/The_Light_Font/TheLightFont.woff2') format('woff2'),
+        url('./Font/The_Light_Font/TheLightFont.woff') format('woff'),
+        url('./Font/The_Light_Font/TheLightFont.svg#TheLightFont') format('svg');
+    font-weight: 400;
+    font-style: normal;
+    font-stretch: normal;
+    unicode-range: U+0020-00FA;
+}*/
+
+h1 {
+    font-family: wanabees;
+    font-weight: lighter;
+    font-size: 500%;
+    text-align: center;
+    color: #2D4747;
+    text-shadow: -2px 0 #cc9966, 0 2px #cc9966, 2px 0 #cc9966, 0 -2px #cc9966;
+}
+
+.moonflowerB {
+    font-family: moon_flower_bold;
+    font-size: 200%;
+    line-height: 10%;
+}
+
+td{
+    border: 1px solid #cc9966;
+    text-align: center;
+    width: 500px;
+}
+
+
+.tableBorderColl{
+    border-collapse: collapse;
+    margin-left: auto;
+    margin-right: auto;
+    width:  1800px;
+}
+
+.tableBorderNone{
+    border-collapse: collapse;
+
+}
+
+img{
+   margin: 10px 20px 10px 20px; 
+   width: 200px;
+}
+
+.rayon{
+    font-family: moon_flower_bold;
+    font-size: 300%;
+    text-align: center;
+
+}
+
+.produit{
+    font-family: TheLightFont;
+    font-size: 250%;
+    color: #2D4747;
+}
+.variete{
+    font-family: TheLightFont;
+    font-size: 190%;
+    color: #cc9966;
+}
+
+.texteProduit{
+    font-family: TheLightFont;
+    font-size: 145%;
+    color: #2D4747; 
+}
